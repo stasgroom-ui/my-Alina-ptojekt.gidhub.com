@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Девушке, которую люблю всем сердцем и душой</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            background: radial-gradient(circle at top left, #ffe6f0 0%, #ffd6ea 30%, #ffc4e2 60%, #ffb3da 100%);
+            color: #3b1221;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay-hearts {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.25) 0, transparent 55%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.15) 0, transparent 55%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            box-shadow: 0 18px 45px rgba(171, 0, 76, 0.25);
+            padding: 28px 22px 30px;
+            overflow: hidden;
+        }
+        @media (min-width: 700px) {
+            .card { padding: 36px 40px 40px; }
+        }
+        .card::before {
+            content: "LOVE";
+            position: absolute;
+            top: -40px;
+            right: -5px;
+            font-size: 120px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: rgba(255,192,218,0.35);
+            transform: rotate(-18deg);
+            pointer-events: none;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .title h1 {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.3;
+            color: #e0196b;
+        }
+        @media (min-width: 700px) {
+            .title h1 { font-size: 28px; }
+        }
+        .subtitle {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #7c324e;
+        }
+        .video-wrapper {
+            margin: 18px auto 16px;
+            max-width: 640px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 26px rgba(224,25,107,0.28);
+            background: #000;
+        }
+        .video-wrapper iframe,
+        .video-wrapper video {
+            display: block;
+            width: 100%;
+            height: 360px;
+            border: none;
+        }
+        @media (max-width: 600px) {
+            .video-wrapper iframe,
+            .video-wrapper video { height: 220px; }
+        }
+        .music-control {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .music-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 13px;
+            cursor: pointer;
+            background: rgba(224,25,107,0.12);
+            color: #e0196b;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(224,25,107,0.25);
+        }
+        .music-btn span.icon { font-size: 15px; }
+        .music-btn.active {
+            background: #e0196b;
+            color: #fff;
+            box-shadow: 0 5px 14px rgba(224,25,107,0.45);
+        }
+        .text-block {
+            text-align: center;
+            margin-bottom: 22px;
+            padding: 0 4px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4f1c30;
+        }
+        .text-block span.heart { color: #ff1f71; }
+        .facts-wrapper {
+            position: relative;
+            margin-top: 10px;
+            margin-bottom: 12px;
+            height: 32px;
+            overflow: hidden;
+            text-align: center;
+        }
+        .fact {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            padding: 5px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 4px 12px rgba(224,25,107,0.35);
+            color: #e0196b;
+            font-weight: 600;
+            font-size: 13px;
+            opacity: 0;
+            animation: fadeSlide 21s linear infinite;
+        }
+        .fact:nth-child(1){animation-delay:0s;}
+        .fact:nth-child(2){animation-delay:3s;}
+        .fact:nth-child(3){animation-delay:6s;}
+        .fact:nth-child(4){animation-delay:9s;}
+        .fact:nth-child(5){animation-delay:12s;}
+        .fact:nth-child(6){animation-delay:15s;}
+        .fact:nth-child(7){animation-delay:18s;}
+        @keyframes fadeSlide {
+            0%{opacity:0;transform:translate(-50%,10px);}
+            8%{opacity:1;transform:translate(-50%,0);}
+            19%{opacity:1;transform:translate(-50%,0);}
+            27%{opacity:0;transform:translate(-50%,-10px);}
+            100%{opacity:0;transform:translate(-50%,-10px);}
+        }
+        .gallery-title {
+            text-align: center;
+            font-size: 15px;
+            margin: 10px 0 6px;
+            color: #7b3b52;
+        }
+        .polaroid-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin: 8px 0 4px;
+        }
+        .polaroid {
+            position: relative;
+            background: #fff;
+            padding: 8px 8px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transform: rotate(-2deg);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer;
+        }
+        .polaroid:nth-child(2n){transform:rotate(2.5deg);}
+        .polaroid:nth-child(3n){transform:rotate(-4deg);}
+        .polaroid:hover{
+            transform:translateY(-3px) scale(1.01);
+            box-shadow:0 16px 30px rgba(0,0,0,0.25);
+        }
+        .polaroid img{
+            width:100%;
+            display:block;
+            border-radius:8px;
+            object-fit:cover;
+            aspect-ratio:1/1;
+        }
+        .polaroid-caption{
+            margin-top:6px;
+            font-size:12px;
+            text-align:center;
+            color:#7b3b52;
+        }
+        .footer-note{
+            margin-top:14px;
+            text-align:center;
+            font-size:13px;
+            color:#8a4360;
+        }
+        .lightbox{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.72);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:999;
+        }
+        .lightbox.active{display:flex;}
+        .lightbox-inner{
+            position:relative;
+            max-width:90%;
+            max-height:90%;
+            background:#fff;
+            border-radius:16px;
+            box-shadow:0 18px 45px rgba(0,0,0,0.6);
+            padding:10px 10px 16px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+        .lightbox-img{
+            max-width:100%;
+            max-height:70vh;
+            border-radius:12px;
+            object-fit:contain;
+        }
+        .lightbox-caption{
+            margin-top:10px;
+            font-size:14px;
+            color:#7b3b52;
+            text-align:center;
+        }
+        .lightbox-close{
+            position:absolute;
+            top:6px;
+            right:10px;
+            font-size:20px;
+            color:#e0196b;
+            cursor:pointer;
+            padding:4px 8px;
+            border-radius:999px;
+            background:rgba(255,255,255,0.85);
+            border:1px solid rgba(224,25,107,0.35);
+        }
+        .lightbox-arrow{
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            font-size:26px;
+            color:#fff;
+            cursor:pointer;
+            padding:6px 10px;
+            border-radius:999px;
+            background:rgba(0,0,0,0.35);
+            user-select:none;
+        }
+        .lightbox-arrow.left{left:10px;}
+        .lightbox-arrow.right{right:10px;}
+    </style>
+</head>
+<body>
+    <div class="overlay-hearts"></div>
+    <div class="card">
+        <div class="title">
+            <h1>Девушке, которую люблю всем сердцем и душой</h1>
+            <div class="subtitle">Для Алины, которая подарила мне самые настоящие чувства</div>
+        </div>
+
+        <div class="video-wrapper" style="max-width:420px;">
+            <iframe src="https://www.youtube.com/embed/Ah3Ov0d_KZk?rel=0&modestbranding=1" title="YouTube Shorts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%; height:560px; border:none;"></iframe>
+        </div>
+
+        <div class="music-control">
+            <button class="music-btn" id="musicToggle">
+                <span class="icon">♫</span>
+                <span id="musicText">Включить музыку</span>
+            </button>
+        </div>
+
+        <audio id="bgMusic" loop>
+            <source src="https://ua.files.fm/u/z8qp2s8f38" type="audio/mpeg">
+        </audio>
+
+        <div class="text-block">
+            <p>Моя родная, моя самая любимая…<br>Я даже не знаю, как подобрать слова, чтобы описать, насколько сильно я тебя люблю. Ты стала для меня чем-то намного большим, чем просто любимая девушка. Ты — человек, который наполнил мою жизнь настоящими чувствами.</p>
+            <p>С тобой я впервые понял, что значит по-настоящему любить и быть любимым. Это невероятное ощущение — знать, что ты кому-то так же сильно нужна, как и он тебе. Ты даёшь мне тепло, спокойствие и одновременно такую бурю эмоций, от которой иногда просто перехватывает дыхание.</p>
+            <p>Ты для меня безумно ценная. Я благодарен тебе за каждый момент, за каждую улыбку, за твою нежность и заботу. Я очень сильно тебя люблю. И то, что между нами есть — для меня самое дорогое, что могла подарить жизнь.</p>
+            <p><span class="heart">Всем сердцем и всей душой, твой Стас.</span></p>
+        </div>
+
+        <div class="facts-wrapper">
+            <div class="fact">Самая милая</div>
+            <div class="fact">Самая хорошая</div>
+            <div class="fact">Самая красивая</div>
+            <div class="fact">Самая родная</div>
+            <div class="fact">Весёлая</div>
+            <div class="fact">Интересная</div>
+            <div class="fact">Умная</div>
+        </div>
+
+        <div class="gallery-title">Маленькая галерея моментов, которые я особенно люблю с тобой</div>
+        <div class="polaroid-grid" id="gallery">
+            <div class="polaroid" data-full="https://i.ibb.co/hRwdm7J3/5215674737009301321.jpg">
+                <img src="https://i.ibb.co/hRwdm7J3/5215674737009301321.jpg" alt="Алина">
+                <div class="polaroid-caption">Зимой рядом с тобой всегда тепло</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/xK7RsDQ4/5215674737009301330.jpg">
+                <img src="https://i.ibb.co/xK7RsDQ4/5215674737009301330.jpg" alt="Алина">
+                <div class="polaroid-caption">Там, где ты — там моё любимое место</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/jPKJTPqK/5215674737009301343.jpg">
+                <img src="https://i.ibb.co/jPKJTPqK/5215674737009301343.jpg" alt="Алина">
+                <div class="polaroid-caption">С тобой любой горизонт кажется ближе</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/qY1H5rx8/5215674737009301344.jpg">
+                <img src="https://i.ibb.co/qY1H5rx8/5215674737009301344.jpg" alt="Алина">
+                <div class="polaroid-caption">Когда ты обнимаешь — ничего не страшно</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/Jjqzpybv/5215674737009301345.jpg">
+                <img src="https://i.ibb.co/Jjqzpybv/5215674737009301345.jpg" alt="Алина">
+                <div class="polaroid-caption">Ты — моё самое красивое «сейчас»</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/nqq9j903/5215674737009301353.jpg">
+                <img src="https://i.ibb.co/nqq9j903/5215674737009301353.jpg" alt="Алина">
+                <div class="polaroid-caption">Моя принцесса, моё счастье</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/FbMBV59C/5370668626274358270.jpg">
+                <img src="https://i.ibb.co/FbMBV59C/5370668626274358270.jpg" alt="Алина">
+                <div class="polaroid-caption">Самые уютные вечера — с тобой</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/NnxMvfp9/5395559946029567647.jpg">
+                <img src="https://i.ibb.co/NnxMvfp9/5395559946029567647.jpg" alt="Алина">
+                <div class="polaroid-caption">Ты и лето — идеальное сочетание</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/G3xbkzN0/5406825619477172627.jpg">
+                <img src="https://i.ibb.co/G3xbkzN0/5406825619477172627.jpg" alt="Алина">
+                <div class="polaroid-caption">Улыбка, в которую невозможно не влюбиться</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/LXhXD2v9/5406825619477172898.jpg">
+                <img src="https://i.ibb.co/LXhXD2v9/5406825619477172898.jpg" alt="Алина">
+                <div class="polaroid-caption">Каждая прогулка с тобой — особенная</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/KpJxQqjw/5409211679968531158.jpg">
+                <img src="https://i.ibb.co/KpJxQqjw/5409211679968531158.jpg" alt="Алина">
+                <div class="polaroid-caption">Самая милая с самого детства</div>
+            </div>
+            <div class="polaroid" data-full="https://i.ibb.co/S4kzXN9q/5409211679968531194.jpg">
+                <img src="https://i.ibb.co/S4kzXN9q/5409211679968531194.jpg" alt="Алина">
+                <div class="polaroid-caption">Ты была, есть и будешь моей любимой</div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Спасибо тебе за все эмоции, которые я чувствую рядом с тобой.<br>
+            Ты — моё самое нежное и самое любимое «сейчас» и «всегда». 💗
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-inner">
+            <div class="lightbox-close" id="lightboxClose">✕</div>
+            <img src="" alt="" class="lightbox-img" id="lightboxImg">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+        <div class="lightbox-arrow left" id="lightboxPrev">‹</div>
+        <div class="lightbox-arrow right" id="lightboxNext">›</div>
+    </div>
+
+    <script>
+        (function () {
+            const btn = document.getElementById('musicToggle');
+            const text = document.getElementById('musicText');
+            const audio = document.getElementById('bgMusic');
+            let playing = false;
+
+            if (!btn || !audio || !text) return;
+
+            btn.addEventListener('click', async () => {
+                try {
+                    if (!playing) {
+                        await audio.play();
+                        playing = true;
+                        btn.classList.add('active');
+                        text.textContent = 'Выключить музыку';
+                    } else {
+                        audio.pause();
+                        playing = false;
+                        btn.classList.remove('active');
+                        text.textContent = 'Включить музыку';
+                    }
+                } catch (e) {
+                    console.error('Ошибка воспроизведения музыки:', e);
+                }
+            });
+        })();
+
+        (function () {
+            const galleryItems = Array.from(document.querySelectorAll('#gallery .polaroid'));
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            const lightboxClose = document.getElementById('lightboxClose');
+            const lightboxPrev = document.getElementById('lightboxPrev');
+            const lightboxNext = document.getElementById('lightboxNext');
+            let currentIndex = 0;
+
+            function openLightbox(index) {
+                const item = galleryItems[index];
+                if (!item) return;
+                const full = item.getAttribute('data-full');
+                const caption = item.querySelector('.polaroid-caption')?.textContent || '';
+                lightboxImg.src = full;
+                lightboxCaption.textContent = caption;
+                currentIndex = index;
+                lightbox.classList.add('active');
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+            }
+
+            function showNext(delta) {
+                let newIndex = currentIndex + delta;
+                if (newIndex < 0) newIndex = galleryItems.length - 1;
+                if (newIndex >= galleryItems.length) newIndex = 0;
+                openLightbox(newIndex);
+            }
+
+            galleryItems.forEach((item, index) => {
+                item.addEventListener('click', () => openLightbox(index));
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            lightboxPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showNext(-1);
+            });
+
+            lightboxNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showNext(1);
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showNext(-1);
+                if (e.key === 'ArrowRight') showNext(1);
+            });
+        })();
+    </script>
+</body>
+</html>
